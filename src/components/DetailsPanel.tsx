@@ -1,4 +1,3 @@
-// components/DetailsPanel.tsx
 "use client";
 import React from "react";
 import { useFileSystem } from "../context/FileSystemContext";

@@ -1,4 +1,3 @@
-// components/MoveDialog.tsx
 "use client";
 import React, { useState } from "react";
 import { useFileSystem } from "../context/FileSystemContext";

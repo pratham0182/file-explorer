@@ -1,12 +1,9 @@
-// context/fileUtils.ts
 import { FileTree, FileSystemNode, FolderNode, PathArray, ID } from "../types/fileTypes";
 
-/** Simple id generator */
 export function genId(prefix = "") {
   return `${prefix}${Math.random().toString(36).slice(2, 9)}`;
 }
 
-/** Inject ids into raw JSON (recursively) */
 export function injectIds(node: any, idPrefix = ""): FileSystemNode {
   const id: ID = genId(idPrefix);
   if (node.type === "file") {
@@ -22,7 +19,6 @@ export function deepClone<T>(v: T): T {
   return JSON.parse(JSON.stringify(v));
 }
 
-/** Find node by id; returns node and parent (as FolderNode) */
 export function findNodeById(root: FileTree, id: ID) {
   if (root.id === id) return { node: root, parent: null as FolderNode | null };
   const stack: { node: FileSystemNode; parent: FolderNode | null }[] = [{ node: root, parent: null }];
@@ -36,7 +32,6 @@ export function findNodeById(root: FileTree, id: ID) {
   return { node: null, parent: null };
 }
 
-/** Get path (IDs) from root to target id */
 export function getPathById(root: FileTree, targetId: ID): PathArray | null {
   const path: ID[] = [];
   let found = false;
@@ -56,14 +51,12 @@ export function getPathById(root: FileTree, targetId: ID): PathArray | null {
   return found ? path : null;
 }
 
-/** Check if targetId is descendant of nodeId (including itself) */
 export function isDescendant(root: FileTree, nodeId: ID, targetId: ID) {
   const path = getPathById(root, targetId);
   if (!path) return false;
   return path.includes(nodeId);
 }
 
-/** Rename node by id — return new tree */
 export function renameNode(root: FileTree, targetId: ID, newName: string) {
   const tree = deepClone(root);
   const { node } = findNodeById(tree, targetId);
@@ -72,7 +65,6 @@ export function renameNode(root: FileTree, targetId: ID, newName: string) {
   return tree;
 }
 
-/** Insert node (clone) into destination folder id */
 export function insertNodeAt(root: FileTree, destFolderId: ID, nodeToInsert: FileSystemNode) {
   const tree = deepClone(root);
   const { node } = findNodeById(tree, destFolderId);
@@ -81,7 +73,6 @@ export function insertNodeAt(root: FileTree, destFolderId: ID, nodeToInsert: Fil
   return tree;
 }
 
-/** Remove node by id, return { newTree, removedNode, parentId } */
 export function removeNodeById(root: FileTree, targetId: ID) {
   const tree = deepClone(root);
   if (tree.id === targetId) throw new Error("Cannot remove root");
@@ -92,7 +83,6 @@ export function removeNodeById(root: FileTree, targetId: ID) {
   return { newTree: tree, removedNode: removed, parentId: parent.id };
 }
 
-/** Helper to find parent folder of nodeId */
 export function findParent(root: FileTree, targetId: ID): FolderNode | null {
   if (root.id === targetId) return null;
   const stack: FileSystemNode[] = [root];

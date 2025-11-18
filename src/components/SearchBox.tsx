@@ -1,4 +1,3 @@
-// components/SearchBox.tsx
 "use client";
 import React from "react";
 

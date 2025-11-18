@@ -1,4 +1,3 @@
-// context/FileSystemContext.tsx
 "use client";
 
 import React, { createContext, useContext, useEffect, useReducer } from "react";
@@ -21,7 +20,7 @@ type FSContextType = {
   move: (srcId: ID, destFolderId: ID) => { ok: boolean; message?: string };
   getPath: (id: ID) => PathArray | null;
   findNode: (id: ID) => { node: FileSystemNode | null; parentId: ID | null };
-  listAllFolderIds: () => { id: ID; path: PathArray; name: string }[]; // for folder picker
+  listAllFolderIds: () => { id: ID; path: PathArray; name: string }[];
   copyByPath?:any
 };
 
@@ -53,7 +52,6 @@ const FileSystemContext = createContext<FSContextType | null>(null);
 export function FileSystemProvider({ children }: { children: React.ReactNode }) {
   const [tree, dispatch] = useReducer(reducer, initialTreeWithIds);
 
-  // load from localStorage if present
   useEffect(() => {
     const s = localStorage.getItem("fileTree_v2");
     if (s) {
@@ -64,12 +62,10 @@ export function FileSystemProvider({ children }: { children: React.ReactNode }) 
     }
   }, []);
 
-  // persist
   useEffect(() => {
     localStorage.setItem("fileTree_v2", JSON.stringify(tree));
   }, [tree]);
 
-  /******** helper functions ********/
   const getPath = (id: ID) => getPathById(tree, id);
 
   const findNode = (id: ID) => {
@@ -90,12 +86,10 @@ export function FileSystemProvider({ children }: { children: React.ReactNode }) 
     return out;
   };
 
-  /******** validations + actions ********/
   const rename = (id: ID, newName: string) => {
     const trimmed = newName.trim();
     if (!trimmed) return { ok: false, message: "Name cannot be empty or whitespace." };
 
-    // find parent and check siblings for duplicates (case-insensitive)
     const parent = ((): any => {
       const p = (tree.id === id) ? null : findParentSync(tree, id);
       return p;
@@ -117,21 +111,17 @@ export function FileSystemProvider({ children }: { children: React.ReactNode }) 
   };
 
   const move = (srcId: ID, destFolderId: ID) => {
-    // find src node
     const src = findNodeById(tree, srcId).node;
     if (!src) return { ok: false, message: "Source not found." };
 
     const dest = findNodeById(tree, destFolderId).node;
     if (!dest || dest.type !== "folder") return { ok: false, message: "Destination must be a folder." };
 
-    // cannot move root
     if (tree.id === srcId) return { ok: false, message: "Cannot move root." };
 
-    // cannot move to same parent
     const parent = findParentSync(tree, srcId);
     if (parent && parent.id === destFolderId) return { ok: false, message: "Item is already in the selected folder." };
 
-    // cannot move into itself or descendants
     if (isDescendant(tree, srcId, destFolderId)) return { ok: false, message: "Cannot move a folder into itself or any of its descendants." };
 
     dispatch({ type: "MOVE", payload: { srcId, destFolderId } });
@@ -161,7 +151,6 @@ export function useFileSystem() {
   return c;
 }
 
-/** local helper to find parent (synchronous on a tree snapshot) */
 function findParentSync(root: FileTree, targetId: ID) {
   if (root.id === targetId) return null;
   const stack: any[] = [{ node: root, parent: null as any }];

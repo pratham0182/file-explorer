@@ -1,4 +1,3 @@
-// components/FileExplorer.tsx
 "use client";
 import React, { useMemo, useState } from "react";
 import { useFileSystem } from "../context/FileSystemContext";
@@ -23,11 +22,9 @@ export default function FileExplorer() {
     setCopyOpen(true);
   };
 
-  // 🔍 NEW SEARCH LOGIC (trigger only after 3 characters)
   const { matchedIds, autoExpanded } = useMemo(() => {
     const trimmed = query.trim();
 
-    // Only search after 3 characters
     if (trimmed.length < 3) {
       return {
         matchedIds: new Set<string>(),
@@ -47,7 +44,6 @@ export default function FileExplorer() {
       if (selfMatch) {
         matched.add(node.id);
 
-        // Expand only this node’s ancestors
         chain.forEach((id) => expanded.add(id));
 
         matchFound = true;
@@ -68,12 +64,10 @@ export default function FileExplorer() {
     return { matchedIds: matched, autoExpanded: expanded };
   }, [query, fs.tree]);
 
-  // Select items
   const select = (id: string) => {
     setSelectedId(id);
   };
 
-  // Toast messages
   const showMessage = (m: string) => {
     setLastMessage(m);
     setTimeout(() => setLastMessage(null), 2000);
@@ -89,14 +83,11 @@ export default function FileExplorer() {
     setMoveOpen(true);
   };
 
-  // Selected path for breadcrumbs
   const selectedPath = selectedId ? fs.getPath(selectedId) : null;
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 16 }}>
-      {/* LEFT SIDE */}
       <div>
-        {/* Title + Search */}
         <div
           style={{
             display: "flex",
@@ -108,13 +99,11 @@ export default function FileExplorer() {
           <SearchBox value={query} onChange={setQuery} />
         </div>
 
-        {/* Breadcrumbs */}
         <Breadcrumbs
           pathIds={selectedPath ?? [fs.tree.id]}
           onClickId={select}
         />
 
-        {/* Tree */}
         <div style={{ border: "1px solid #ddd", padding: 12, borderRadius: 6 }}>
           <FolderView
             node={fs.tree}
@@ -130,7 +119,6 @@ export default function FileExplorer() {
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
       <aside>
         <DetailsPanel
           selectedId={selectedId}
@@ -141,7 +129,6 @@ export default function FileExplorer() {
         {lastMessage && <div className="toast">{lastMessage}</div>}
       </aside>
 
-      {/* Rename Dialog */}
       {renameOpen && selectedId && (
         <RenameDialog
           id={selectedId}
@@ -153,7 +140,6 @@ export default function FileExplorer() {
         />
       )}
 
-      {/* Move Dialog */}
       {moveOpen && selectedId && (
         <MoveDialog
           srcId={selectedId}
