@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# File Explorer UI -- Next.js + TypeScript + MUI
 
-## Getting Started
+A fully interactive **File Explorer UI** built with **Next.js App
+Router**, **TypeScript**, **Context API**, and **Material UI**,
+supporting:
 
-First, run the development server:
+-   Folder & File navigation\
+-   Rename, Copy, Move\
+-   Search with auto--expand logic\
+-   Breadcrumb navigation\
+-   Context menu (⋮) actions\
+-   Details panel\
+-   Path generation\
+-   JSON-based filesystem stored in Context
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Smart Search
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   Search activates after **3 characters**\
+-   Only the **ancestor chain of matched items expands**\
+-   Clearing search resets tree to default state
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### File/Folder Operations
 
-## Learn More
+-   **Rename** with validation\
+-   **Move** with restrictions\
+-   **Copy** with unique naming
 
-To learn more about Next.js, take a look at the following resources:
+### Breadcrumb Navigation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Copy Path
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Context-Based State
 
-## Deploy on Vercel
+### MUI-Based UI
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   Next.js 14\
+-   React 18\
+-   TypeScript\
+-   Context API\
+-   Material UI
+
+## Run Project
+
+    npm install
+    npm run dev

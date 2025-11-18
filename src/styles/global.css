@@ -1,0 +1,10 @@
+/* styles/globals.css */
+body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 12px; background: #fafafa; color: #222; }
+.tree-item { padding: 6px 8px; border-radius: 4px; display: flex; align-items: center; }
+.tree-item:hover { background: #f3f3f3; cursor: pointer; }
+.selected { background: #e6f0ff; }
+.modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); z-index: 40; }
+.modal-body { background: white; padding: 16px; border-radius: 8px; width: 480px; max-width: 90%; }
+.error { color: #b00020; margin-top: 8px; }
+.toast { margin-top: 12px; padding: 8px 10px; background: #222; color: white; border-radius: 6px; display: inline-block; }
+button { margin-left: 6px; padding: 6px 8px; border-radius: 6px; }
